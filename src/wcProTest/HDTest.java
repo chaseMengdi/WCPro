@@ -34,7 +34,7 @@ public class HDTest {
 	}
 
 	@Test
-	public void print_02() {
+	public void print_02() { 
 		wcPro ex1 = new wcPro();
 		ArrayList<String> arr = new ArrayList<String>();
 		String str_exp = "five 5\r\n" + "four 4\r\n" + "three 3\r\n"
