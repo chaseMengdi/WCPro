@@ -34,7 +34,7 @@ public class LBQTest {
 		map.put("four", 4);
 		map.put("five", 5);
 
-		sort_exp.add("five");
+		sort_exp.add("five"); 
 		sort_exp.add("5");
 		sort_exp.add("four");
 		sort_exp.add("4");
