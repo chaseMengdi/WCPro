@@ -26,6 +26,99 @@ public class wcPro {
 			System.out.print("参数数量错误\n");
 		}
 	}
+// 划分统计单词数
+	public static HashMap<String, Integer> count(String thefile) {
+		File file = new File(thefile);
+		HashMap<String, Integer> map = new HashMap<>();
+		if (file.exists()) {
+			try {
+				FileInputStream fis = new FileInputStream(file);
+				InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+				BufferedReader br = new BufferedReader(isr);
+				String line = new String("");
+				StringBuffer sb = new StringBuffer();
+				while ((line = br.readLine()) != null) {
+					// 转为小写
+					line = line.toLowerCase();
+					int k = 0;
+					// 去除行首的非字母单词
+					char first = line.charAt(k);
+					while (!((first >= 'a' && first <= 'z') || first == '-')) {
+						k++;
+						first = line.charAt(k);
+					}
+					line = line.substring(k);
+					// 去除多个空格\\s+
+					String[] split = line
+							.split("\\s++|0|1|2|3|4|5|6|7|8|9|\\_|\\'|\\.|\\,|\\;|\\(|\\)|\\~|\\!|"
+									+ "\\@|\\#|\\$|\\%|\\&|\\*|\\?|\""
+									+ "|\\[|\\]|\\<|\\>|\\=|\\+|\\*|\\/|\\{|\\}|\\:|\\||\\^|\\`");
+					for (int i = 0; i < split.length; i++) {
+						// 获取到每一个单词
+						Integer integer = map.get(split[i]);
+						// 考虑末尾为-的单词或开头为---
+						if ((split[i].endsWith("-") || split[i].startsWith("-"))
+								&& !(split[i].equals("-"))) {
+							// 去除多个空格\\s+
+							String[] sp = split[i].split("\\s++|\\-");
+							// 全部为----
+							if (sp.length == 0) {
+								split[i] = "-";
+								integer = map.get(split[i]);
+							}
+							// 处理--dan
+							else if (split[i].startsWith("-")) {
+								int j = 0;
+								char si = split[i].charAt(0);
+								while (split[i].charAt(j) == si)
+									j++;
+								split[i] = split[i].substring(j);
+								integer = map.get(split[i]);
+							}
+							// 去除多个空格\\s+
+							sp = split[i].split("\\s+|\\-");
+							// 全部为----
+							if (sp.length == 0) {
+								split[i] = "-";
+								integer = map.get(split[i]);
+							}
+							// 处理dn-dan---
+							else {
+								String tmp = sp[0];
+								for (int j = 1; j < sp.length; j++) {
+									tmp = tmp + "-" + sp[j];
+								}
+								split[i] = tmp;
+								integer = map.get(split[i]);
+							}
+						}
+						if (!split[i].equals("") && !split[i].equals("-")) {
+							// 如果这个单词在map中没有，赋值1
+							if (null == integer) {
+								map.put(split[i], 1);
+							} else {
+								// 如果有，在原来的个数上加上一
+								map.put(split[i], ++integer);
+							}
+						}
+					}
+				}
+				sb.append(line);
+				br.close();
+				isr.close();
+				fis.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.print("文件不存在\n");
+		}
+		return map;
+	}
 // 词频排序
 	public static ArrayList<String> sort(HashMap<String, Integer> map) {
 		// 以Key进行排序
