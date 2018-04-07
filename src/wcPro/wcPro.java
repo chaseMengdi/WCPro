@@ -149,4 +149,27 @@ public class wcPro {
 		}
 		return str;
 	}
+// 控制输出
+	public static String print(ArrayList<String> str) {
+		String message = "";
+		int i = 0;
+		try {
+			// 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
+			FileWriter writer = new FileWriter("result.txt", true);
+			for (i = 0; i < str.size() - 1; i++) {
+				writer.write((str.get(i) + " " + str.get(i + 1) + "\r\n")
+						.toCharArray());
+				message += (str.get(i) + " " + str.get(i + 1) + "\r\n");
+				// 输出前100个单词
+				if (i > 100)
+					break;
+				i++;
+			}
+			writer.write(("-------------------\r\n").toCharArray());
+			writer.close();
+		} catch (IOException e) {
+			System.out.print("文件读写错误" + e + "\n");
+		}
+		return message;
+	}
 }
