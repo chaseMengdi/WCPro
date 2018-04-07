@@ -14,7 +14,7 @@ public class CJWTest {
 	// 大小写+连字符（任意位置）+单引号+数字（任意位置）+词频相同+双引号+常见字符
 	//随机组合测试
 
-	// 一个单词，小写
+	// 一个单词，小写 
 	@Test
 	public void count_01() {
 		HashMap<String, Integer> map_exp = new HashMap<>();
