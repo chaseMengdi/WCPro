@@ -172,4 +172,24 @@ public class wcPro {
 		}
 		return message;
 	}
+// 图形界面
+	public static String show() {
+		// 默认的打开路径为“我的文档”
+		JFileChooser fcDlg = new JFileChooser(new File(
+				System.getProperty("user.dir")));
+		// 设置默认目录为得到工程的路径
+		fcDlg.setDialogTitle("请选择文件");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				"文本文件(*.txt)", "txt");
+		fcDlg.setFileFilter(filter);
+		int returnVal = fcDlg.showOpenDialog(null);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			String[] filepath = new String[1];
+			filepath[0] = fcDlg.getSelectedFile().getPath();
+			main(filepath);
+			return "图形界面打开成功\n";
+		} else {
+			return "图形界面打开失败\n";
+		}
+	}
 }
