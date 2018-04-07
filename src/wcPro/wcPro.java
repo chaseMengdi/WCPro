@@ -11,6 +11,21 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class wcPro {
+// 输入控制
+	public static void main(String[] args) {
+		if (args.length == 1) {
+			if (args[0].endsWith(".txt")) {
+				HashMap<String, Integer> map = wcPro.count(args[0]);
+				wcPro.print(wcPro.sort(map));
+			} else if (args[0].equals("-x")) {
+				show();
+			} else{
+				System.out.print("输入格式错误\n");
+			}
+		} else{
+			System.out.print("参数数量错误\n");
+		}
+	}
 // 词频排序
 	public static ArrayList<String> sort(HashMap<String, Integer> map) {
 		// 以Key进行排序
