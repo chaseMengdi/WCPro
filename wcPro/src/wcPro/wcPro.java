@@ -16,7 +16,8 @@ public class wcPro {
 		if (args.length == 1) {
 			if (args[0].endsWith(".txt")) {
 				HashMap<String, Integer> map = wcPro.count(args[0]);
-				wcPro.print(wcPro.sort(map));
+				String pri=wcPro.print(wcPro.sort(map));
+				System.out.println(pri);
 			} else if (args[0].equals("-x")) {
 				show();
 			} else{
