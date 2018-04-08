@@ -6,11 +6,13 @@
 <br>可执行程序命名为：wcPro.exe，该程序处理用户需求的模式为：
 <br>wcPro.exe [input_file_name]
 <br>存储统计结果的文件为result.txt，放在与wcPro.exe相同的目录下。
-<br>开发工具：MyEclipse Eclipse
-<br>测试工具：JUnit框架
-<br>项目工程：/src/wcPro
-<br>单元测试工程：/src/wcProTest
+<br>开发工具：MyEclipse&Eclipse
+<br>测试框架：JUnit框架
+<br>项目源代码：/src/wcPro
+<br>单元源代码：/src/wcProTest
 <br>可执行文件目录：/BIN
+<br>chaseMengdi/wcPro仅作存放exe及源代码作用，不包含相关依赖库
+<br>要运行或测试项目请到Release处下载stage1和stage2
 
 ### 任务分工：
 * 王  迪：main函数编写，判断并处理命令行参数
