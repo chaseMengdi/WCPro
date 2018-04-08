@@ -37,7 +37,7 @@ public class wcPro {
 				FileInputStream fis = new FileInputStream(file);
 				InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
 				BufferedReader br = new BufferedReader(isr);
-				String line = new String("");
+				String line = "";
 				StringBuffer sb = new StringBuffer();
 				while ((line = br.readLine()) != null) {
 					// 转为小写
@@ -105,7 +105,6 @@ public class wcPro {
 						}
 					}
 				}
-				sb.append(line);
 				br.close();
 				isr.close();
 				fis.close();
@@ -144,8 +143,8 @@ public class wcPro {
 			if (!(string.getKey().equals("")) && !(string.getKey().equals("-"))) {
 				str.add(string.getKey());
 				str.add(string.getValue().toString());
-				// 输出前100个单词
-				if (i > 100)
+				// 输出前1000个单词
+				if (i > 1000)
 					break;
 				i++;
 			}
@@ -156,14 +155,16 @@ public class wcPro {
 	// 控制输出
 	public static String print(ArrayList<String> str) {
 		String message = "";
+		StringBuffer buf=new StringBuffer();
 		int i = 0;
+		OutputStreamWriter writer = null;
 		try {
 			// 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
-			FileWriter writer = new FileWriter("result.txt", true);
+			writer=new OutputStreamWriter(new FileOutputStream("result.txt",true),"UTF-8");
 			for (i = 0; i < str.size() - 1; i++) {
 				writer.write((str.get(i) + " " + str.get(i + 1) + "\r\n")
 						.toCharArray());
-				message += (str.get(i) + " " + str.get(i + 1) + "\r\n");
+				buf.append(str.get(i) + " " + str.get(i + 1) + "\r\n");
 				// 输出前100个单词
 				if (i > 100)
 					break;
@@ -174,6 +175,14 @@ public class wcPro {
 		} catch (IOException e) {
 			System.out.print("文件读写错误" + e + "\n");
 		}
+		finally{
+			try {
+				writer.close();
+			} catch (IOException e) {
+				System.out.print("关闭错误" + e + "\n");
+			}
+		}
+		message=buf.toString();
 		return message;
 	}
 
