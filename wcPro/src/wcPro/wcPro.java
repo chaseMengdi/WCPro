@@ -16,10 +16,10 @@ public class wcPro {
 		if (args.length == 1) {
 			if (args[0].endsWith(".txt")) {
 				HashMap<String, Integer> map = wcPro.count(args[0]);
-				String pri=wcPro.print(wcPro.sort(map));
+				String pri=wcPro.print(wcPro.sortList(map));
 				System.out.println(pri);
 			} else if (args[0].equals("-x")) {
-				show();
+				imgShow();
 			} else{
 				System.out.print("输入格式错误\n");
 			}
@@ -105,6 +105,7 @@ public class wcPro {
 						}
 					}
 				}
+				//sb.append(line);
 				br.close();
 				isr.close();
 				fis.close();
@@ -122,49 +123,53 @@ public class wcPro {
 	}
 
 	// 词频排序
-	public static ArrayList<String> sort(HashMap<String, Integer> map) {
-		// 以Key进行排序
-		TreeMap treemap = new TreeMap(map);
-		// 以value进行排序
-		ArrayList<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(
-				treemap.entrySet());
-		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-			public int compare(Map.Entry<String, Integer> o1,
-					Map.Entry<String, Integer> o2) {
-				// 降序
-				return o2.getValue() - o1.getValue();
-				// 升序 o1.getValue() - o2.getValue()）
-			}
-		});
-		ArrayList<String> str = new ArrayList<String>();
-		int i = 0;
-		for (Map.Entry<String, Integer> string : list) {
-			// 排除-与空格
-			if (!(string.getKey().equals("")) && !(string.getKey().equals("-"))) {
-				str.add(string.getKey());
-				str.add(string.getValue().toString());
-				// 输出前1000个单词
-				if (i > 1000)
-					break;
-				i++;
-			}
-		}
-		return str;
-	}
+    public static ArrayList<String> sortList(HashMap<String, Integer> hashMap) {
+        // 以Key进行排序
+        TreeMap treeMap = new TreeMap(hashMap);
+        // 以value进行排序
+        ArrayList<Map.Entry<String, Integer>> sortList = new ArrayList<Map.Entry<String, Integer>>(
+                treeMap.entrySet());
+        Collections.sort(sortList, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> mapEntry_1,
+                    Map.Entry<String, Integer> mapEntry_2) {
+                // 降序
+                return mapEntry_2.getValue() - mapEntry_1.getValue();
+                // 升序 mapEntry_1.getValue() - mapEntry_2.getValue()）
+            }
+        });
+        ArrayList<String> strSort = new ArrayList<String>();
+        int loopNum = 0;
+        for (Map.Entry<String, Integer> mapString : sortList) {
+            // 排除-与空格
+            if (!(mapString.getKey().equals("")) && !(mapString.getKey().equals("-"))) {
+                strSort.add(mapString.getKey());
+                strSort.add(mapString.getValue().toString());
+                // 输出前100个单词
+                if (loopNum > 100)
+                    break;
+                loopNum++;
+            }
+        }
+        return strSort;
+    }
 
 	// 控制输出
 	public static String print(ArrayList<String> str) {
 		String message = "";
 		StringBuffer buf=new StringBuffer();
 		int i = 0;
+		//FileWriter writer = null;
 		OutputStreamWriter writer = null;
 		try {
 			// 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
+			//writer = new FileWriter("result.txt", true);
 			writer=new OutputStreamWriter(new FileOutputStream("result.txt",true),"UTF-8");
+			//FileOutputStream("result.txt",true)构造函数中的第二个参数true表示以追加形式写文件
 			for (i = 0; i < str.size() - 1; i++) {
 				writer.write((str.get(i) + " " + str.get(i + 1) + "\r\n")
 						.toCharArray());
 				buf.append(str.get(i) + " " + str.get(i + 1) + "\r\n");
+				//message += (str.get(i) + " " + str.get(i + 1) + "\r\n");
 				// 输出前100个单词
 				if (i > 100)
 					break;
@@ -187,23 +192,23 @@ public class wcPro {
 	}
 
 	// 图形界面
-	public static String show() {
-		// 默认的打开路径为“我的文档”
-		JFileChooser fcDlg = new JFileChooser(new File(
-				System.getProperty("user.dir")));
-		// 设置默认目录为得到工程的路径
-		fcDlg.setDialogTitle("请选择文件");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"文本文件(*.txt)", "txt");
-		fcDlg.setFileFilter(filter);
-		int returnVal = fcDlg.showOpenDialog(null);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			String[] filepath = new String[1];
-			filepath[0] = fcDlg.getSelectedFile().getPath();
-			main(filepath);
-			return "图形界面打开成功\n";
-		} else {
-			return "图形界面打开失败\n";
-		}
-	}
+    public static String imgShow() {
+        // 默认的打开路径为“我的文档”
+        JFileChooser fileChooser = new JFileChooser(new File(
+                System.getProperty("user.dir")));
+        // 设置默认目录为得到工程的路径
+        fileChooser.setDialogTitle("请选择文件");
+        FileNameExtensionFilter nameFilter = new FileNameExtensionFilter(
+                "文本文件(*.txt)", "txt");
+        fileChooser.setFileFilter(nameFilter);
+        int returnVal = fileChooser.showOpenDialog(null);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            String[] filePath = new String[1];
+            filePath[0] = fileChooser.getSelectedFile().getPath();
+            main(filePath);
+            return "图形界面打开成功\n";
+        } else {
+            return "图形界面打开失败\n";
+        }
+    }
 }
